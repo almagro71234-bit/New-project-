@@ -3,62 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost AI | المنصة الاحترافية</title>
+    <title>BrandBoost AI | المنصة المتكاملة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; transition: background 1s ease; }
+        body { font-family: 'Cairo', sans-serif; transition: background 0.8s ease; }
         .gradient-bg { background: #0f172a; }
         .fade-in { animation: fadeIn 0.6s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .color-card { height: 40px; width: 100%; border-radius: 8px; margin-bottom: 5px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        .color-card { height: 35px; width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .tab-active { border-bottom: 3px solid #06b6d4; color: #06b6d4; }
     </style>
 </head>
 <body id="mainBody" class="gradient-bg text-white min-h-screen flex flex-col items-center p-4">
 
+    <audio id="successSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
+
     <div class="max-w-2xl w-full space-y-6 mt-4">
-        <h1 class="text-4xl font-extrabold text-center bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">BrandBoost AI</h1>
+        <header class="text-center space-y-2">
+            <h1 class="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">BrandBoost AI</h1>
+            <p class="text-slate-400 text-sm">مستشارك الذكي لبناء العلامات التجارية والملصقات</p>
+        </header>
+
+        <div class="flex justify-center border-b border-slate-700 mb-4">
+            <button onclick="switchTab('branding')" id="brandTab" class="px-6 py-2 tab-active font-bold transition">ابتكار الهوية</button>
+            <button onclick="switchTab('stickers')" id="stickerTab" class="px-6 py-2 text-slate-400 hover:text-white transition">تصميم الملصقات</button>
+        </div>
         
         <div class="bg-slate-800/60 p-6 rounded-3xl border border-slate-700 backdrop-blur-xl shadow-2xl">
-            <div class="space-y-4">
-                <input type="text" id="brandName" placeholder="ما هو اسم مشروعك؟" 
+            <div id="brandingSection" class="space-y-4">
+                <input type="text" id="brandName" placeholder="ما هو اسم مشروعك؟ (مثلاً: شمس)" 
                     class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 focus:border-cyan-500 outline-none text-center text-xl shadow-inner">
                 
                 <div class="flex gap-2 justify-center">
-                    <button onclick="setStyle('modern')" class="style-btn px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-cyan-600 transition">✨ عصري</button>
-                    <button onclick="setStyle('classic')" class="style-btn px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-amber-600 transition">🏛️ كلاسيكي</button>
-                    <button onclick="setStyle('playful')" class="style-btn px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-pink-600 transition">🎨 مرح</button>
+                    <button onclick="setStyle('modern')" class="px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-cyan-600 transition">✨ عصري</button>
+                    <button onclick="setStyle('classic')" class="px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-amber-600 transition">🏛️ كلاسيكي</button>
+                    <button onclick="setStyle('playful')" class="px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-pink-600 transition">🎨 مرح</button>
                 </div>
 
                 <button onclick="generateBranding()" 
-                    class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg active:scale-95">
+                    class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-2xl transition-all active:scale-95 shadow-lg">
                     ابتكار الهوية الذكية 🚀
                 </button>
             </div>
 
+            <div id="stickersSection" class="hidden space-y-6 text-center">
+                <p class="text-cyan-400 font-bold">قريباً: مصمم الملصقات الرقمية 🎨</p>
+                <div class="p-8 border-2 border-dashed border-slate-600 rounded-3xl">
+                    <p class="text-slate-400">هنا ستتمكن من تحويل اسم مشروعك إلى ملصقات دائرية ملونة قابلة للطباعة.</p>
+                </div>
+            </div>
+
             <div id="resultArea" class="hidden mt-8 space-y-6 text-right fade-in">
-                
-                <div class="rounded-2xl overflow-hidden border-2 border-slate-600 shadow-2xl h-60 bg-slate-900">
+                <div class="rounded-2xl overflow-hidden border-2 border-slate-600 shadow-2xl h-64 bg-slate-900">
                     <img id="brandImage" src="" alt="Brand Preview" class="w-full h-full object-cover">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700">
-                        <span class="text-cyan-400 text-xs block mb-3 font-bold uppercase">🎨 باليت الألوان المقترحة</span>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700 shadow-lg">
+                        <span class="text-cyan-400 text-xs block mb-3 font-bold uppercase">🎨 باليت الألوان</span>
                         <div class="grid grid-cols-3 gap-2" id="colorContainer"></div>
                     </div>
-                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700">
-                        <span class="text-purple-400 text-xs block mb-3 font-bold uppercase">✒️ الخط العربي المقترح</span>
-                        <p id="fontSuggestion" class="text-white font-bold text-lg"></p>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700 shadow-lg">
+                        <span class="text-purple-400 text-xs block mb-3 font-bold uppercase">✒️ الخط المقترح</span>
+                        <p id="fontSuggestion" class="text-white font-bold"></p>
                     </div>
                 </div>
 
-                <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700 text-center">
+                <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700 text-center shadow-lg">
                     <span class="text-yellow-400 text-sm block mb-1 font-bold italic">📝 الشعار اللفظي</span>
-                    <p id="sloganText" class="text-white text-2xl font-bold italic"></p>
+                    <p id="sloganText" class="text-white text-xl font-bold"></p>
                 </div>
 
-                <button onclick="shareOnWhatsApp()" class="w-full bg-green-600 py-3 rounded-xl font-bold shadow-lg">مشاركة عبر واتساب 📱</button>
+                <button onclick="shareOnWhatsApp()" class="w-full bg-green-600 py-3 rounded-xl font-bold shadow-lg hover:bg-green-500 transition">مشاركة عبر واتساب 📱</button>
             </div>
         </div>
     </div>
@@ -66,27 +83,47 @@
     <script>
         let selectedStyle = 'modern';
 
+        function switchTab(tab) {
+            const brandSection = document.getElementById('brandingSection');
+            const stickerSection = document.getElementById('stickersSection');
+            const brandTab = document.getElementById('brandTab');
+            const stickerTab = document.getElementById('stickerTab');
+
+            if(tab === 'branding') {
+                brandSection.classList.remove('hidden');
+                stickerSection.classList.add('hidden');
+                brandTab.classList.add('tab-active');
+                stickerTab.classList.remove('tab-active');
+            } else {
+                brandSection.classList.add('hidden');
+                stickerSection.classList.remove('hidden');
+                stickerTab.classList.add('tab-active');
+                brandTab.classList.remove('tab-active');
+            }
+        }
+
         function setStyle(style) {
             selectedStyle = style;
             const body = document.getElementById('mainBody');
             if(style === 'modern') body.style.background = '#0f172a';
             if(style === 'classic') body.style.background = '#2d1b0d';
             if(style === 'playful') body.style.background = '#2e0f2a';
-            alert('تم اختيار النمط!');
         }
 
         function generateBranding() {
             const name = document.getElementById('brandName').value;
             if(!name) return alert('أدخل اسم المشروع!');
 
+            // تشغيل صوت النجاح
+            document.getElementById('successSound').play();
+
             const resultArea = document.getElementById('resultArea');
             const colorContainer = document.getElementById('colorContainer');
-            const randomId = Math.floor(Math.random() * 1000);
+            const randomId = Math.floor(Math.random() * 2000);
             
-            // 1. تحديث الصورة
-            document.getElementById('brandImage').src = `https://loremflickr.com/800/600/${encodeURIComponent(name)},${selectedStyle}?random=${randomId}`;
+            // تحديث محرك البحث عن الصور ليكون أكثر دقة (Symbol & Icon)
+            document.getElementById('brandImage').src = `https://loremflickr.com/800/600/${encodeURIComponent(name)},symbol,icon?random=${randomId}`;
             
-            // 2. تحديث الألوان بناءً على النمط
             let colors = [];
             let font = "";
             if(selectedStyle === 'modern') {
@@ -94,15 +131,15 @@
                 font = "Tajawal (عصري)";
             } else if(selectedStyle === 'classic') {
                 colors = ['#b45309', '#78350f', '#fef3c7'];
-                font = "Amiri (كلاسيكي فخم)";
+                font = "Amiri (كلاسيكي)";
             } else {
                 colors = ['#ec4899', '#8b5cf6', '#fbbf24'];
-                font = "Cairo (مرح وحيوي)";
+                font = "Cairo (مرح)";
             }
 
             colorContainer.innerHTML = colors.map(c => `<div><div class="color-card" style="background:${c}"></div><span class="text-[10px]">${c}</span></div>`).join('');
             document.getElementById('fontSuggestion').innerText = font;
-            document.getElementById('sloganText').innerText = `"${name}: خيارك الأول للتميز"`;
+            document.getElementById('sloganText').innerText = `"${name}: إبداع بلا حدود"`;
 
             resultArea.classList.remove('hidden');
             resultArea.scrollIntoView({ behavior: 'smooth' });
