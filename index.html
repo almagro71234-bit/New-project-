@@ -21,19 +21,19 @@
 
     <div class="max-w-2xl w-full space-y-6 mt-4">
         <header class="text-center space-y-2">
-            <h1 class="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">BrandBoost AI</h1>
+            <h1 class="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent italic">BrandBoost AI</h1>
             <p class="text-slate-400 text-sm">مستشارك الذكي لبناء العلامات التجارية والملصقات</p>
         </header>
 
         <div class="flex justify-center border-b border-slate-700 mb-4">
-            <button onclick="switchTab('branding')" id="brandTab" class="px-6 py-2 tab-active font-bold transition">ابتكار الهوية</button>
-            <button onclick="switchTab('stickers')" id="stickerTab" class="px-6 py-2 text-slate-400 hover:text-white transition">تصميم الملصقات</button>
+            <button onclick="switchTab('branding')" id="brandTab" class="px-6 py-2 tab-active font-bold transition text-cyan-400">ابتكار الهوية</button>
+            <button onclick="switchTab('stickers')" id="stickerTab" class="px-6 py-2 text-slate-400 hover:text-cyan-400 transition">تصميم الملصقات</button>
         </div>
         
         <div class="bg-slate-800/60 p-6 rounded-3xl border border-slate-700 backdrop-blur-xl shadow-2xl">
             <div id="brandingSection" class="space-y-4">
-                <input type="text" id="brandName" placeholder="ما هو اسم مشروعك؟ (مثلاً: شمس)" 
-                    class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 focus:border-cyan-500 outline-none text-center text-xl shadow-inner">
+                <input type="text" id="brandName" placeholder="اكتب اسم مشروعك (مثلاً: شمس)" 
+                    class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 focus:border-cyan-500 outline-none text-center text-xl shadow-inner transition-colors">
                 
                 <div class="flex gap-2 justify-center">
                     <button onclick="setStyle('modern')" class="px-4 py-2 rounded-full bg-slate-700 text-xs hover:bg-cyan-600 transition">✨ عصري</button>
@@ -42,42 +42,45 @@
                 </div>
 
                 <button onclick="generateBranding()" 
-                    class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-2xl transition-all active:scale-95 shadow-lg">
+                    class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-2xl transition-all active:scale-95 shadow-lg text-lg">
                     ابتكار الهوية الذكية 🚀
                 </button>
             </div>
 
             <div id="stickersSection" class="hidden space-y-6 text-center">
                 <p class="text-cyan-400 font-bold">قريباً: مصمم الملصقات الرقمية 🎨</p>
-                <div class="p-8 border-2 border-dashed border-slate-600 rounded-3xl">
+                <div class="p-8 border-2 border-dashed border-slate-600 rounded-3xl bg-slate-900/50">
                     <p class="text-slate-400">هنا ستتمكن من تحويل اسم مشروعك إلى ملصقات دائرية ملونة قابلة للطباعة.</p>
                 </div>
             </div>
 
             <div id="resultArea" class="hidden mt-8 space-y-6 text-right fade-in">
-                <div class="rounded-2xl overflow-hidden border-2 border-slate-600 shadow-2xl h-64 bg-slate-900">
+                <div class="rounded-2xl overflow-hidden border-2 border-slate-600 shadow-2xl h-64 bg-slate-900 relative">
                     <img id="brandImage" src="" alt="Brand Preview" class="w-full h-full object-cover">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 p-2 text-center text-xs text-gray-400">نموذج هوية بصرية مقترح</div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700 shadow-lg">
-                        <span class="text-cyan-400 text-xs block mb-3 font-bold uppercase">🎨 باليت الألوان</span>
+                        <span class="text-cyan-400 text-xs block mb-3 font-bold uppercase">🎨 باليت الألوان المقترحة</span>
                         <div class="grid grid-cols-3 gap-2" id="colorContainer"></div>
                     </div>
                     <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700 shadow-lg">
-                        <span class="text-purple-400 text-xs block mb-3 font-bold uppercase">✒️ الخط المقترح</span>
-                        <p id="fontSuggestion" class="text-white font-bold"></p>
+                        <span class="text-purple-400 text-xs block mb-3 font-bold uppercase">✒️ الخط العربي المقترح</span>
+                        <p id="fontSuggestion" class="text-white font-bold text-lg"></p>
                     </div>
                 </div>
 
                 <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700 text-center shadow-lg">
                     <span class="text-yellow-400 text-sm block mb-1 font-bold italic">📝 الشعار اللفظي</span>
-                    <p id="sloganText" class="text-white text-xl font-bold"></p>
+                    <p id="sloganText" class="text-white text-2xl font-bold"></p>
                 </div>
 
-                <button onclick="shareOnWhatsApp()" class="w-full bg-green-600 py-3 rounded-xl font-bold shadow-lg hover:bg-green-500 transition">مشاركة عبر واتساب 📱</button>
+                <button onclick="shareOnWhatsApp()" class="w-full bg-green-600 py-3 rounded-xl font-bold shadow-lg hover:bg-green-500 transition text-lg active:scale-95">مشاركة النتيجة عبر واتساب 📱</button>
             </div>
         </div>
+        
+        <p class="text-slate-500 text-xs text-center">نظام ذكاء اصطناعي تجريبي - 2026</p>
     </div>
 
     <script>
@@ -112,34 +115,40 @@
 
         function generateBranding() {
             const name = document.getElementById('brandName').value;
-            if(!name) return alert('أدخل اسم المشروع!');
+            if(!name) return alert('يرجى إدخال اسم أو تخصص مشروعك!');
 
             // تشغيل صوت النجاح
             document.getElementById('successSound').play();
 
             const resultArea = document.getElementById('resultArea');
             const colorContainer = document.getElementById('colorContainer');
-            const randomId = Math.floor(Math.random() * 2000);
+            
+            // الحل: جلب "معرف عشوائي جديد" في كل مرة تضغط فيها على الزر
+            const randomId = Math.floor(Math.random() * 5000) + "_" + new Date().getTime();
             
             // تحديث محرك البحث عن الصور ليكون أكثر دقة (Symbol & Icon)
             document.getElementById('brandImage').src = `https://loremflickr.com/800/600/${encodeURIComponent(name)},symbol,icon?random=${randomId}`;
             
             let colors = [];
             let font = "";
+            let sloganPrefix = "";
             if(selectedStyle === 'modern') {
                 colors = ['#06b6d4', '#3b82f6', '#f8fafc'];
                 font = "Tajawal (عصري)";
+                sloganPrefix = "الابتكار";
             } else if(selectedStyle === 'classic') {
                 colors = ['#b45309', '#78350f', '#fef3c7'];
-                font = "Amiri (كلاسيكي)";
+                font = "Amiri (كلاسيكي فخم)";
+                sloganPrefix = "التميز";
             } else {
                 colors = ['#ec4899', '#8b5cf6', '#fbbf24'];
-                font = "Cairo (مرح)";
+                font = "Cairo (مرح وحيوي)";
+                sloganPrefix = "الإبداع";
             }
 
             colorContainer.innerHTML = colors.map(c => `<div><div class="color-card" style="background:${c}"></div><span class="text-[10px]">${c}</span></div>`).join('');
             document.getElementById('fontSuggestion').innerText = font;
-            document.getElementById('sloganText').innerText = `"${name}: إبداع بلا حدود"`;
+            document.getElementById('sloganText').innerText = `"${name}: خيارك الأول لـ ${sloganPrefix}"`;
 
             resultArea.classList.remove('hidden');
             resultArea.scrollIntoView({ behavior: 'smooth' });
@@ -147,7 +156,7 @@
 
         function shareOnWhatsApp() {
             const name = document.getElementById('brandName').value;
-            const text = `صممت هوية مشروعي "${name}" عبر BrandBoost AI! ✨\nرابط الموقع: ${window.location.href}`;
+            const text = `صممت هوية مشروعي الجديد "${name}" عبر BrandBoost AI! ✨\nرابط الموقع: ${window.location.href}`;
             window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>
