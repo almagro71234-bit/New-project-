@@ -3,50 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost AI | ابتكار الهوية</title>
+    <title>BrandBoost AI | الهوية البصرية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        .result-card { transition: all 0.5s ease-in-out; }
     </style>
 </head>
 <body class="gradient-bg text-white min-h-screen flex flex-col items-center p-6">
 
-    <div class="max-w-2xl w-full text-center space-y-8 mt-10">
-        <div class="space-y-2">
-            <h1 class="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                BrandBoost AI
-            </h1>
-            <p class="text-slate-400 text-lg">حول فكرتك إلى علامة تجارية متكاملة في ثوانٍ</p>
-        </div>
-
-        <div class="bg-slate-800/40 p-8 rounded-3xl border border-slate-700 backdrop-blur-md shadow-2xl">
-            <div class="space-y-5">
-                <input type="text" id="brandName" placeholder="اكتب اسم مشروعك هنا..." 
-                    class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 focus:border-cyan-500 outline-none text-center text-xl transition-all shadow-inner">
-                
+    <div class="max-w-2xl w-full text-center space-y-8 mt-6">
+        <h1 class="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">BrandBoost AI</h1>
+        
+        <div class="bg-slate-800/40 p-6 rounded-3xl border border-slate-700 backdrop-blur-md">
+            <div class="space-y-4">
+                <input type="text" id="brandName" placeholder="مثلاً: مطعم، تقنية، أزياء..." 
+                    class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 focus:border-cyan-500 outline-none text-center text-xl shadow-inner">
                 <button onclick="generateBranding()" 
-                    class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-cyan-900/20">
-                    ابتكار الهوية الآن ✨
+                    class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg">
+                    ابتكار الهوية بالصور ✨
                 </button>
             </div>
 
-            <div id="resultArea" class="hidden mt-10 space-y-6 text-right border-t border-slate-700 pt-8 animate-fade-in">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                        <span class="text-cyan-400 text-sm block mb-1">💡 فكرة الشعار (Logo)</span>
+            <div id="resultArea" class="hidden mt-8 space-y-6 text-right animate-fade-in">
+                <div class="rounded-2xl overflow-hidden border-4 border-slate-700 shadow-2xl relative">
+                    <img id="brandImage" src="" alt="Brand Preview" class="w-full h-64 object-cover">
+                    <div class="absolute bottom-0 right-0 left-0 bg-black/60 p-2 text-center text-xs">نموذج تخيلي للهوية البصرية</div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+                        <span class="text-cyan-400 text-sm block">💡 فكرة الشعار</span>
                         <p id="logoIdea" class="text-gray-200 font-medium"></p>
                     </div>
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                        <span class="text-purple-400 text-sm block mb-1">🎨 لوحة الألوان</span>
-                        <p id="colorPalette" class="text-gray-200 font-medium"></p>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+                        <span class="text-yellow-400 text-sm block text-center">📝 الشعار اللفظي</span>
+                        <p id="sloganText" class="text-gray-200 font-medium text-center text-lg italic"></p>
                     </div>
-                </div>
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                    <span class="text-yellow-400 text-sm block mb-1">📝 الشعار اللفظي (Slogan)</span>
-                    <p id="sloganText" class="text-gray-200 font-medium text-lg italic"></p>
                 </div>
             </div>
         </div>
@@ -55,23 +49,20 @@
     <script>
         function generateBranding() {
             const name = document.getElementById('brandName').value;
-            if(!name) return alert('يرجى إدخال اسم المشروع!');
+            if(!name) return alert('يرجى إدخال اسم أو نوع المشروع!');
 
             const resultArea = document.getElementById('resultArea');
-            resultArea.classList.add('hidden'); // إخفاء النتائج القديمة
+            const brandImage = document.getElementById('brandImage');
+            
+            // تغيير الصورة بناءً على الكلمة المكتوبة
+            brandImage.src = `https://source.unsplash.com/featured/?${name},branding,logo`;
 
-            // محاكاة النتائج بناءً على الاسم
-            document.getElementById('logoIdea').innerText = `تصميم يدمج بين حرف "${name[0]}" وعنصر يرمز للنمو الرقمي بأسلوب "مينيمال".`;
-            document.getElementById('colorPalette').innerText = "الأزرق الملكي، الرمادي الفضي، والأبيض النقي.";
-            document.getElementById('sloganText').innerText = `"${name}: حيث يلتقي الإبداع بالواقع."`;
+            document.getElementById('logoIdea').innerText = `تصميم عصري يجسد روح "${name}" باستخدام خطوط انسيابية وألوان متدرجة.`;
+            document.getElementById('sloganText').innerText = `"${name}: التميز الذي تستحقه."`;
 
-            setTimeout(() => {
-                resultArea.classList.remove('hidden');
-                resultArea.scrollIntoView({ behavior: 'smooth' });
-            }, 500);
+            resultArea.classList.remove('hidden');
+            resultArea.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
 </html>
-
-                    
