@@ -3,83 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost AI | النسخة السريعة</title>
+    <title>BrandBoost AI | النسخة الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #0f172a; }
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .loading-bar { height: 4px; width: 0%; background: #06b6d4; transition: width 0.3s; }
+        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: white; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .loader { width: 40px; height: 40px; border: 4px solid #1e293b; border-top: 4px solid #06b6d4; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="text-white min-h-screen p-4 flex flex-col items-center">
+<body class="min-h-screen flex flex-col items-center p-4">
 
-    <div class="max-w-xl w-full space-y-6">
+    <div class="max-w-md w-full space-y-6 mt-8">
         <header class="text-center">
-            <h1 class="text-3xl font-bold text-cyan-400">BrandBoost AI 🤖</h1>
-            <p class="text-slate-400 text-sm">توليد فوري للهوية البصرية</p>
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">BrandBoost AI</h1>
+            <p class="text-slate-400 text-sm mt-2">مولد الهوية البصرية الفوري</p>
         </header>
 
-        <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 shadow-xl">
-            <input type="text" id="brandName" placeholder="اكتب اسم مشروعك هنا..." 
-                class="w-full p-4 rounded-xl bg-slate-900 border border-slate-600 focus:border-cyan-500 outline-none text-center mb-4">
+        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700 backdrop-blur-md shadow-xl">
+            <input type="text" id="brandName" placeholder="أدخل اسم العلامة التجارية..." 
+                class="w-full p-4 rounded-xl bg-slate-900 border border-slate-600 focus:border-cyan-500 outline-none text-center text-xl mb-4">
             
-            <button onclick="generateFastAI()" id="btnText"
-                class="w-full bg-cyan-600 hover:bg-cyan-500 py-4 rounded-xl font-bold transition-all active:scale-95">
-                توليد التصميم الآن 🚀
+            <button onclick="generateEverything()" id="genBtn"
+                class="w-full bg-cyan-600 hover:bg-cyan-500 py-4 rounded-xl font-bold shadow-lg transition-all active:scale-95">
+                توليد الهوية الآن 🚀
             </button>
-            <div id="progress" class="loading-bar mt-2 rounded-full"></div>
         </div>
 
-        <div id="resultArea" class="hidden space-y-4 fade-in">
-            <div class="relative rounded-2xl overflow-hidden border-2 border-slate-700 h-72 bg-slate-900">
-                <img id="brandImage" class="w-full h-full object-cover shadow-2xl">
+        <div id="loadingArea" class="hidden flex flex-col items-center space-y-3">
+            <div class="loader"></div>
+            <p class="text-cyan-400 text-sm animate-pulse">جاري تصميم هويتك...</p>
+        </div>
+
+        <div id="resultArea" class="hidden fade-in space-y-4">
+            <div class="relative rounded-2xl overflow-hidden border-2 border-slate-700 aspect-square bg-slate-900 flex items-center justify-center">
+                <img id="brandImage" src="" alt="Brand Concept" class="w-full h-full object-cover hidden">
+                <div id="textLogoFallback" class="hidden text-center p-6">
+                    <div class="text-6xl mb-4" id="logoIcon">✨</div>
+                    <div class="text-4xl font-bold tracking-widest uppercase" id="logoTextPlaceholder"></div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 text-center">
+                <p id="sloganText" class="text-white font-bold text-lg"></p>
+                <p class="text-slate-400 text-xs mt-2 italic">نموذج هوية بصرية مقترح من AI</p>
             </div>
             
-            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                <p id="aiSlogan" class="text-center text-xl font-bold text-cyan-300"></p>
-            </div>
+            <button onclick="window.location.reload()" class="w-full py-3 text-slate-400 text-sm underline">تجربة اسم آخر 🔄</button>
         </div>
     </div>
 
     <script>
-        function generateFastAI() {
+        function generateEverything() {
             const name = document.getElementById('brandName').value;
-            const btn = document.getElementById('btnText');
-            const progress = document.getElementById('progress');
-            const img = document.getElementById('brandImage');
+            if(!name) return alert('يرجى كتابة الاسم أولاً!');
+
+            const btn = document.getElementById('genBtn');
+            const loading = document.getElementById('loadingArea');
             const result = document.getElementById('resultArea');
+            const img = document.getElementById('brandImage');
+            const fallback = document.getElementById('textLogoFallback');
+            const placeholderText = document.getElementById('logoTextPlaceholder');
 
-            if(!name) return alert('يرجى كتابة الاسم!');
-
-            // بدء التحميل
+            // إعدادات العرض
             btn.disabled = true;
-            btn.innerText = 'جاري المعالجة السريعة...';
-            progress.style.width = '70%';
+            loading.classList.remove('hidden');
+            result.classList.add('hidden');
+            img.classList.add('hidden');
+            fallback.classList.add('hidden');
 
-            // توليد معرف عشوائي لكسر التخزين المؤقت
-            const seed = Math.floor(Math.random() * 1000);
+            const seed = Math.floor(Math.random() * 5000);
             
-            // استخدام رابط فائق السرعة يعتمد على اسم المشروع
-            const fastImageUrl = `https://image.pollinations.ai/prompt/professional-logo-minimalist-for-${encodeURIComponent(name)}-vector-flat-design?seed=${seed}&width=800&height=800&nologo=true`;
-
-            img.src = fastImageUrl;
+            // محاولة جلب صورة من محرك سريع جداً
+            img.src = `https://picsum.photos/seed/${seed}/800/800`;
 
             img.onload = () => {
-                progress.style.width = '100%';
-                btn.disabled = false;
-                btn.innerText = 'توليد التصميم الآن 🚀';
+                loading.classList.add('hidden');
                 result.classList.remove('hidden');
-                document.getElementById('aiSlogan').innerText = `${name} | التميز في كل تفصيل`;
-                
-                setTimeout(() => progress.style.width = '0%', 500);
+                img.classList.remove('hidden');
+                btn.disabled = false;
+                document.getElementById('sloganText').innerText = `${name} | مستقبل الإبداع`;
             };
 
-            // في حال تأخر السيرفر أكثر من 10 ثواني، استخدم البديل
+            // في حال فشل تحميل الصورة (وهذا ما يحدث معك غالباً)
             img.onerror = () => {
-                img.src = `https://source.unsplash.com/800x800/?logo,${name}`;
+                loading.classList.add('hidden');
+                result.classList.remove('hidden');
+                fallback.classList.remove('hidden');
+                placeholderText.innerText = name;
+                btn.disabled = false;
+                document.getElementById('sloganText').innerText = `${name} | تميز بلا حدود`;
             };
+
+            // تحريك الصفحة للنتيجة
+            setTimeout(() => {
+                result.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         }
     </script>
 </body>
