@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost Studio Pro</title>
+    <title>BrandBoost Studio | النسخة الشاملة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&family=Amiri:wght@700&family=Reem+Kufi:wght@700&family=Aref+Ruqaa:wght@700&family=Lalezar&family=Vibes&family=Monoton&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
             background-image: radial-gradient(#d1d5db 1px, transparent 1px);
             background-size: 20px 20px; background-color: #ffffff;
         }
-        .icon-size { font-size: 3.5rem; margin-bottom: 10px; transition: 0.3s; }
+        .icon-size { font-size: 3.5rem; margin-bottom: 10px; }
     </style>
 </head>
 <body class="p-4 lg:p-8">
@@ -30,31 +30,24 @@
                 <h2 class="text-xl font-black text-cyan-400 mb-6 flex items-center gap-2">💎 استوديو التصميم المتكامل</h2>
                 
                 <input type="text" id="brandText" oninput="render()" placeholder="اكتب الاسم هنا..." 
-                    class="w-full p-4 rounded-2xl bg-black border border-slate-800 outline-none mb-4 text-center text-xl text-cyan-400 font-bold focus:border-cyan-500">
+                    class="w-full p-4 rounded-2xl bg-black border border-slate-800 outline-none mb-4 text-center text-xl text-cyan-400 font-bold">
 
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="text-[11px] text-slate-500 mb-2 block font-bold">إضافة رمز (Icon):</label>
                         <select id="iconSelect" onchange="render()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-sm outline-none">
                             <option value="">بدون رمز</option>
-                            <option value="👑">تاج ملكي (Crown)</option>
-                            <option value="💎">ألماس (Diamond)</option>
-                            <option value="🚀">انطلاق (Rocket)</option>
-                            <option value="✒️">ريشة خط (Pen)</option>
-                            <option value="⚡">طاقة (Power)</option>
-                            <option value="🌟">نجمة (Star)</option>
-                            <option value="🛡️">درع حماية (Shield)</option>
+                            <option value="👑">👑 تاج</option>
+                            <option value="💎">💎 ألماس</option>
+                            <option value="✒️">✒️ ريشة</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="text-[11px] text-slate-500 mb-2 block font-bold">نوع المخطوطة:</label>
                         <select id="fontSelect" onchange="render()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-sm outline-none">
-                            <option value="'Lalezar'">خط لاليزار</option>
                             <option value="'Aref Ruqaa'">خط الرقعة</option>
+                            <option value="'Lalezar'">خط لاليزار</option>
                             <option value="'Reem Kufi'">الخط الكوفي</option>
-                            <option value="'Vibes'">توقيع يدوي</option>
-                            <option value="'Monoton'">نمط نيون</option>
                         </select>
                     </div>
                 </div>
@@ -65,49 +58,40 @@
                         <select id="effectSelect" onchange="render()" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs">
                             <option value="none">عادي</option>
                             <option value="glow">إشعاع (Glow)</option>
-                            <option value="3d">ثلاثي الأبعاد</option>
-                            <option value="outline">مفرغ (Outline)</option>
                         </select>
                     </div>
                     <div>
                         <label class="text-[11px] text-slate-500 mb-2 block font-bold">لون التصميم:</label>
-                        <input type="color" id="mainColor" oninput="render()" value="#0f172a" class="w-full h-10 bg-transparent cursor-pointer rounded-lg border border-slate-700">
+                        <input type="color" id="mainColor" oninput="render()" value="#ffff00" class="w-full h-10 bg-transparent cursor-pointer rounded-lg border border-slate-700">
                     </div>
                 </div>
 
-                <div class="p-4 bg-slate-900/50 rounded-2xl mb-6">
-                    <label class="text-[11px] text-slate-400 block mb-2 font-bold">تغيير الخلفية:</label>
-                    <div class="flex gap-2">
-                        <button onclick="setBg('white')" class="w-8 h-8 bg-white border border-slate-600 rounded-full"></button>
-                        <button onclick="setBg('transparent')" class="w-8 h-8 bg-slate-300 border border-dashed border-slate-600 rounded-full flex items-center justify-center text-[8px] text-black">T</button>
-                        <button onclick="setBg('linear-gradient(45deg, #0f172a, #334155)')" class="w-8 h-8 bg-slate-800 border border-slate-600 rounded-full"></button>
-                        <button onclick="setBg('linear-gradient(45deg, #000428, #004e92)')" class="w-8 h-8 bg-blue-900 border border-slate-600 rounded-full"></button>
+                <div class="space-y-3 pt-4 border-t border-slate-800">
+                    <button onclick="exportImage()" class="w-full bg-cyan-600 hover:bg-cyan-500 p-4 rounded-2xl font-black shadow-xl transition-all">تنزيل التصميم النهائي (PNG) 📥</button>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center gap-2">
+                            <span>حفظ كملف PDF</span>
+                        </button>
+                        <button onclick="copyDecoratedText()" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center gap-2">
+                            <span>نسخ كـ نص</span>
+                        </button>
                     </div>
                 </div>
-
-                <button onclick="exportImage()" class="w-full bg-cyan-600 hover:bg-cyan-500 p-4 rounded-2xl font-black shadow-xl shadow-cyan-900/20 transition-all active:scale-95">تنزيل التصميم النهائي (PNG) 📥</button>
             </div>
         </div>
 
-        <div class="lg:col-span-7 flex flex-col items-center">
+        <div class="lg:col-span-7">
             <div id="canvas" class="bg-white">
                 <div id="logoWrapper" class="flex flex-col items-center p-12 transition-all">
                     <span id="iconDisplay" class="icon-size"></span>
                     <span id="textOutput" class="text-6xl font-black">الاسم هنا</span>
                 </div>
             </div>
-            <p class="mt-4 text-slate-500 text-xs">ملاحظة: عند اختيار الخلفية الشفافة، ستظهر المربعات للمعاينة فقط ولن تظهر في الصورة النهائية.</p>
         </div>
     </div>
 
     <script>
-        let currentBg = 'white';
-
-        function setBg(val) {
-            currentBg = val;
-            render();
-        }
-
         function render() {
             const text = document.getElementById('brandText').value || "اسم البراند";
             const icon = document.getElementById('iconSelect').value;
@@ -115,68 +99,31 @@
             const color = document.getElementById('mainColor').value;
             const effect = document.getElementById('effectSelect').value;
             
-            const canvas = document.getElementById('canvas');
             const output = document.getElementById('textOutput');
             const iconDisplay = document.getElementById('iconDisplay');
 
-            // ضبط المحتوى والخط
             output.innerText = text;
             output.style.fontFamily = font;
             output.style.color = color;
             iconDisplay.innerText = icon;
             iconDisplay.style.color = color;
 
-            // ضبط الخلفية
-            if (currentBg === 'white') {
-                canvas.className = "bg-white";
-                canvas.style.background = "#ffffff";
-            } else if (currentBg === 'transparent') {
-                canvas.className = "bg-transparent-pattern";
-                canvas.style.background = "";
-            } else {
-                canvas.className = "";
-                canvas.style.background = currentBg;
-            }
-
-            // تطبيق التأثيرات
-            output.style.textShadow = "none";
-            output.style.webkitTextStroke = "0px";
-            output.style.opacity = "1";
-
-            if (effect === 'glow') {
-                output.style.textShadow = `0 0 15px ${color}, 0 0 30px ${color}`;
-            } else if (effect === '3d') {
-                output.style.textShadow = `3px 3px 0px #ccc, 6px 6px 0px #999`;
-            } else if (effect === 'outline') {
-                output.style.color = "transparent";
-                output.style.webkitTextStroke = `2px ${color}`;
-            }
+            output.style.textShadow = effect === 'glow' ? `0 0 15px ${color}, 0 0 30px ${color}` : "none";
         }
 
         async function exportImage() {
             const canvasEl = document.getElementById('canvas');
-            
-            // تحضير التصدير
-            const originalClass = canvasEl.className;
-            const originalBg = canvasEl.style.background;
-            
-            if (currentBg === 'transparent') {
-                canvasEl.className = "";
-                canvasEl.style.background = "transparent";
-            }
-
-            const canvasResult = await html2canvas(canvasEl, {
-                backgroundColor: currentBg === 'transparent' ? null : (currentBg.includes('gradient') ? null : "#ffffff"),
-                scale: 3,
-                useCORS: true
-            });
-
+            const canvasResult = await html2canvas(canvasEl, { scale: 3, useCORS: true });
             const link = document.createElement('a');
-            link.download = `BrandBoost_Pro_${Date.now()}.png`;
+            link.download = `BrandBoost_Pro.png`;
             link.href = canvasResult.toDataURL("image/png");
             link.click();
-            
-            render(); // العودة لحالة المعاينة
+        }
+
+        function copyDecoratedText() {
+            const val = document.getElementById('brandText').value || "اسم البراند";
+            navigator.clipboard.writeText(`✧ ${val} ✧`);
+            alert("تم نسخ النص المزخرف!");
         }
 
         render();
