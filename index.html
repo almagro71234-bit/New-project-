@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost AI Pro</title>
+    <title>BrandBoost AI | النسخة الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background: #0f172a; color: white; }
         .ai-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .style-btn { transition: all 0.3s; border: 2px solid transparent; }
+        .style-btn { transition: all 0.3s; border: 2px solid transparent; cursor: pointer; }
         .style-btn.active { border-color: #06b6d4; background: rgba(6, 182, 212, 0.2); transform: scale(1.05); }
-        .sticker-frame {
-            width: 160px; height: 160px; border-radius: 50%; border: 8px solid white; 
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin: 20px auto;
-        }
+        .logo-display { background: white; border-radius: 2rem; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body class="min-h-screen p-4 flex flex-col items-center">
@@ -24,40 +19,35 @@
     <div class="max-w-md w-full space-y-6 mt-4">
         <header class="text-center">
             <h1 class="text-3xl font-bold text-cyan-400">BrandBoost AI Pro 🤖</h1>
-            <p class="text-slate-400 text-xs">اختر نمطك واحصل على لوغو احترافي فوراً</p>
+            <p class="text-slate-400 text-xs">توليد شعارات حقيقية (وليس صور عشوائية)</p>
         </header>
 
         <div class="ai-card p-6 rounded-3xl space-y-4">
-            <input type="text" id="brandInput" placeholder="اسم مشروعك..." 
+            <input type="text" id="brandInput" placeholder="اكتب اسم مشروعك بالإنجليزية يفضل..." 
                 class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 outline-none text-center text-xl text-white">
             
-            <p class="text-xs text-slate-400 text-center font-bold">اختر نمط التصميم:</p>
             <div class="grid grid-cols-2 gap-2" id="styleSelector">
                 <button onclick="selectStyle(this, 'minimalist')" class="style-btn active bg-slate-800 p-3 rounded-xl text-sm">✨ بسيط وعصري</button>
                 <button onclick="selectStyle(this, 'tech')" class="style-btn bg-slate-800 p-3 rounded-xl text-sm">💻 تقني ورقمي</button>
                 <button onclick="selectStyle(this, 'luxury')" class="style-btn bg-slate-800 p-3 rounded-xl text-sm">👑 فاخر وذهبي</button>
-                <button onclick="selectStyle(this, 'sport')" class="style-btn bg-slate-800 p-3 rounded-xl text-sm">🔥 رياضي وحيوي</button>
+                <button onclick="selectStyle(this, 'badge')" class="style-btn bg-slate-800 p-3 rounded-xl text-sm">🛡️ شارة رسمية</button>
             </div>
 
             <button onclick="generateLogo()" id="aiBtn"
                 class="w-full bg-cyan-600 hover:bg-cyan-500 py-4 rounded-2xl font-bold shadow-lg transition-all active:scale-95">
-                توليد اللوغو بالذكاء الاصطناعي 🚀
+                توليد الشعار الآن 🚀
             </button>
         </div>
 
-        <div id="loading" class="hidden text-center text-cyan-400 animate-pulse">جاري التصميم بدقة عالية...</div>
+        <div id="loading" class="hidden text-center text-cyan-400 animate-bounce">🎨 جاري نحت شعارك الاحترافي...</div>
 
         <div id="results" class="hidden space-y-8 pb-10">
-            <div class="rounded-3xl overflow-hidden border-2 border-slate-700 shadow-2xl bg-white aspect-square">
-                <img id="aiImage" src="" class="w-full h-full object-contain">
+            <div class="logo-display">
+                <img id="aiImage" src="" class="w-full h-full object-contain rounded-xl">
             </div>
-
-            <div class="ai-card p-6 rounded-3xl text-center">
-                <h3 class="text-white font-bold mb-2 font-sm">الملصق التجاري (Sticker):</h3>
-                <div class="sticker-frame">
-                    <span id="stickerLabel" class="text-white font-bold text-xl"></span>
-                </div>
-                <button onclick="window.print()" class="text-slate-400 text-xs underline">حفظ كملف PDF للطباعة</button>
+            
+            <div class="text-center">
+                <p class="text-slate-400 text-xs italic">ملاحظة: إذا ظهرت صورة غير مناسبة، اضغط توليد مرة أخرى لتغيير السيرفر تلقائياً.</p>
             </div>
         </div>
     </div>
@@ -73,7 +63,7 @@
 
         async function generateLogo() {
             const name = document.getElementById('brandInput').value;
-            if(!name) return alert('يرجى إدخال الاسم!');
+            if(!name) return alert('يرجى إدخال اسم المشروع');
 
             const btn = document.getElementById('aiBtn');
             const results = document.getElementById('results');
@@ -84,29 +74,35 @@
             loading.classList.remove('hidden');
             results.classList.add('hidden');
 
-            // قواميس الأنماط لضمان الدقة
-            const prompts = {
-                minimalist: `Professional flat vector logo for "${name}", minimalist, geometric, clean white background, high contrast`,
-                tech: `Cyberpunk futuristic tech logo for "${name}", neon accents, digital circuit style, white background, vector`,
-                luxury: `Elegant gold serif logo for "${name}", premium luxury brand identity, royal style, clean white background`,
-                sport: `Aggressive dynamic sports logo for "${name}", bold typography, mascot style, energetic, white background`
+            const seed = Math.floor(Math.random() * 999999);
+            
+            // أوامر معقدة جداً لإجبار الذكاء الاصطناعي على صنع لوغو فقط
+            const basePrompt = `Vector_Logo_Design,Minimalist_Logo,High_Resolution,White_Background,Text_Reading_"${name}"`;
+            const styleExtra = {
+                minimalist: "Modern_Simple_Geometric_Shape",
+                tech: "Digital_Circuit_Cyber_Style_Blue_Neon",
+                luxury: "Premium_Gold_Elegant_Ornament",
+                badge: "Vintage_Badge_Shield_Emblem"
             };
 
-            const seed = Math.floor(Math.random() * 100000);
-            const finalPrompt = encodeURIComponent(prompts[selectedStyle]);
-            
-            img.src = `https://image.pollinations.ai/prompt/${finalPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
+            // استخدام موديل Flux المتطور عبر منصة Pollinations
+            const finalUrl = `https://image.pollinations.ai/prompt/${basePrompt}_${styleExtra[selectedStyle]}?seed=${seed}&width=1024&height=1024&model=flux&nologo=true`;
+
+            img.src = finalUrl;
 
             img.onload = () => {
                 loading.classList.add('hidden');
                 results.classList.remove('hidden');
-                document.getElementById('stickerLabel').innerText = name;
                 btn.disabled = false;
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             };
 
             img.onerror = () => {
-                img.src = `https://picsum.photos/seed/${seed}/800/800`; // محرك طوارئ
+                // إذا فشل المحرك، لا تظهر صورة عشوائية، بل أظهر لوغو نصي نظيف
+                img.src = `https://ui-avatars.com/api/?name=${name}&background=0ea5e9&color=fff&size=512&bold=true`;
+                loading.classList.add('hidden');
+                results.classList.remove('hidden');
+                btn.disabled = false;
             };
         }
     </script>
