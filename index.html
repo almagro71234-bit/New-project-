@@ -3,99 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost AI v3.0</title>
+    <title>BrandBoost AI | الترسانة والمولد الخاص</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Cairo', sans-serif; background: #020617; color: white; }
-        .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .preview-stage { background: radial-gradient(circle, #1e293b 0%, #020617 100%); min-height: 400px; position: relative; overflow: hidden; }
-        .ai-icon { width: 180px; height: 180px; z-index: 10; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.5)); }
-        .text-overlay { position: absolute; bottom: 40px; width: 100%; text-align: center; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        .glass-ui { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        .preview-stage { background: white; width: 340px; height: 340px; border-radius: 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 40px rgba(6, 182, 212, 0.2); }
+        .server-tag { position: absolute; top: 15px; right: 15px; font-size: 9px; padding: 3px 10px; border-radius: 20px; background: #06b6d4; color: white; z-index: 30; }
+        .internal-icon { font-size: 100px; color: #06b6d4; filter: drop-shadow(0 0 10px rgba(6,182,212,0.5)); }
     </style>
 </head>
-<body class="p-4">
+<body class="min-h-screen p-4 flex flex-col items-center">
 
-    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
         
-        <div class="lg:col-span-4 space-y-4">
-            <div class="glass-panel p-6 rounded-3xl">
-                <h2 class="text-cyan-400 font-bold mb-4 text-center">🤖 مولد الأيقونة الذكي</h2>
-                <input type="text" id="aiPrompt" placeholder="صف شعارك (مثلاً: صقر، محرك، شمس)..." 
-                    class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 mb-4 outline-none text-sm">
+        <div class="lg:col-span-5 space-y-4">
+            <div class="glass-ui p-6 rounded-[2.5rem] shadow-2xl border-t border-cyan-500/30">
+                <h2 class="text-xl font-black text-cyan-400 mb-4 flex items-center gap-2">
+                    <i class="fas fa-microchip"></i> نظام التوليد الهجين
+                </h2>
                 
-                <button onclick="generateAIIcon()" id="genBtn" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 p-3 rounded-xl font-bold hover:scale-105 transition">توليد أيقونة فريدة ✨</button>
-            </div>
-
-            <div class="glass-panel p-6 rounded-3xl space-y-4">
-                <h2 class="text-pink-400 font-bold mb-2 text-center">🎨 لمساتك الخاصة</h2>
-                <div>
-                    <label class="text-[10px] text-slate-400">اسم العلامة التجارية:</label>
-                    <input type="text" id="brandText" oninput="syncText()" class="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 outline-none">
-                </div>
-                <div class="flex gap-2">
-                    <div class="flex-1">
-                        <label class="text-[10px] text-slate-400">لون النص:</label>
-                        <input type="color" id="textColor" oninput="syncText()" value="#ffffff" class="w-full h-8 bg-transparent cursor-pointer">
-                    </div>
-                    <div class="flex-1">
-                        <label class="text-[10px] text-slate-400">حجم الخط:</label>
-                        <input type="range" id="textSize" oninput="syncText()" min="20" max="60" value="35" class="w-full accent-cyan-500">
-                    </div>
-                </div>
+                <input type="text" id="brandName" oninput="updateLiveText()" placeholder="اسم العلامة التجارية..." 
+                    class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 outline-none focus:border-cyan-500 mb-4 transition-all">
+                
+                <textarea id="brandDesc" placeholder="صف فكرة الشعار (مثلاً: تكنولوجيا، صقر، طاقة)..." 
+                    class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 h-24 outline-none focus:border-cyan-500 text-sm"></textarea>
+                
+                <button onclick="startHybridGeneration()" id="btnAction" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 p-4 rounded-2xl font-bold shadow-xl hover:scale-[1.02] transition active:scale-95 mt-4">
+                    ابتكار الهوية الآن 🚀
+                </button>
             </div>
         </div>
 
-        <div class="lg:col-span-8">
-            <div class="preview-stage rounded-[3rem] border border-slate-800 flex flex-col items-center justify-center shadow-2xl p-4">
-                <div id="loading" class="hidden absolute inset-0 bg-black/60 z-50 flex items-center justify-center rounded-[3rem]">
-                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-cyan-500"></div>
+        <div class="lg:col-span-7 flex flex-col items-center justify-center">
+            <div class="preview-stage" id="captureArea">
+                <div id="serverBadge" class="server-tag">جاهز</div>
+                
+                <div id="loader" class="hidden absolute inset-0 z-50 bg-white/95 flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p id="statusText" class="text-[10px] text-slate-500 mt-4 font-bold uppercase tracking-widest text-center px-4"></p>
                 </div>
 
-                <div id="finalLogo" class="relative flex flex-col items-center">
-                    <img id="aiIconImg" src="https://via.placeholder.com/200?text=AI+Icon" class="ai-icon rounded-full mb-6">
-                    <div id="textDisplay" class="text-3xl">BRAND NAME</div>
+                <img id="aiImg" src="" class="w-56 h-56 object-contain mb-4 hidden">
+                
+                <div id="internalEngine" class="hidden mb-4">
+                    <i id="internalIcon" class="fas fa-rocket internal-icon"></i>
                 </div>
 
-                <div class="absolute bottom-6 flex gap-4">
-                    <button onclick="window.print()" class="bg-slate-800/80 px-6 py-2 rounded-full text-xs border border-slate-700">تحميل الهوية 📥</button>
-                    <button onclick="location.reload()" class="bg-slate-800/80 px-6 py-2 rounded-full text-xs border border-slate-700">إعادة البدء 🔄</button>
-                </div>
+                <div id="textLabel" class="text-3xl font-black text-slate-900 uppercase tracking-tighter">BRAND NAME</div>
+            </div>
+
+            <div class="mt-8 flex gap-4">
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-full text-xs font-bold border border-slate-700 transition">تحميل الهوية النهائية 📥</button>
             </div>
         </div>
     </div>
 
     <script>
-        function generateAIIcon() {
-            const prompt = document.getElementById('aiPrompt').value || 'abstract_modern_logo_icon';
-            const img = document.getElementById('aiIconImg');
-            const loading = document.getElementById('loading');
-            const btn = document.getElementById('genBtn');
+        const internalIcons = ['fa-rocket', 'fa-bolt', 'fa-shield-halved', 'fa-gem', 'fa-crown', 'fa-lightbulb', 'fa-brain', 'fa-microchip'];
+        let currentServerIndex = 0;
 
-            loading.classList.remove('hidden');
-            btn.disabled = true;
-
-            const seed = Math.floor(Math.random() * 100000);
-            // نستخدم Flux مع محددات دقيقة لضمان جودة الأيقونة فقط بدون عشوائية
-            const finalPrompt = `professional_minimalist_vector_icon_of_${prompt.replace(' ', '_')}_isolated_on_black_background_high_quality`;
-            
-            img.src = `https://image.pollinations.ai/prompt/${finalPrompt}?seed=${seed}&width=512&height=512&model=flux&nologo=true`;
-
-            img.onload = () => {
-                loading.classList.add('hidden');
-                btn.disabled = false;
-            };
+        function updateLiveText() {
+            document.getElementById('textLabel').innerText = document.getElementById('brandName').value || "BRAND NAME";
         }
 
-        function syncText() {
-            const val = document.getElementById('brandText').value || 'BRAND NAME';
-            const color = document.getElementById('textColor').value;
-            const size = document.getElementById('textSize').value;
-            
-            const display = document.getElementById('textDisplay');
-            display.innerText = val;
-            display.style.color = color;
-            display.style.fontSize = size + 'px';
+        async function startHybridGeneration() {
+            const name = document.getElementById('brandName').value;
+            const desc = document.getElementById('brandDesc').value;
+            if(!name || !desc) return alert('أدخل البيانات أولاً!');
+
+            const btn = document.getElementById('btnAction');
+            const loader = document.getElementById('loader');
+            const status = document.getElementById('statusText');
+            const badge = document.getElementById('serverBadge');
+            const aiImg = document.getElementById('aiImg');
+            const internal = document.getElementById('internalEngine');
+
+            btn.disabled = true;
+            loader.classList.remove('hidden');
+            currentServerIndex = 0;
+
+            const seed = Math.floor(Math.random() * 99999);
+            const prompt = encodeURIComponent(`minimalist_vector_logo_icon_of_${desc}_isolated_on_white`);
+
+            // ترسانة السيرفرات + المولد الخاص في النهاية
+            const servers = [
+                { name: "AI Server: Flux", url: `https://image.pollinations.ai/prompt/${prompt}?seed=${seed}&width=512&height=512&model=flux&nologo=true` },
+                { name: "AI Server: Stable", url: `https://image.pollinations.ai/prompt/${prompt}_modern?seed=${seed+1}&width=512&height=512&model=standard` },
+                { name: "Internal Engine", isInternal: true } // المولد الخاص بنا كخطة دفاع أخيرة
+            ];
+
+            function tryNext() {
+                if (currentServerIndex < servers.length) {
+                    const srv = servers[currentServerIndex];
+                    status.innerText = `محاولة الاتصال بـ: ${srv.name}...`;
+                    badge.innerText = srv.name;
+
+                    if (srv.isInternal) {
+                        runInternalGenerator();
+                    } else {
+                        aiImg.src = srv.url;
+                        currentServerIndex++;
+                    }
+                }
+            }
+
+            function runInternalGenerator() {
+                aiImg.classList.add('hidden');
+                internal.classList.remove('hidden');
+                const randomIcon = internalIcons[Math.floor(Math.random() * internalIcons.length)];
+                document.getElementById('internalIcon').className = `fas ${randomIcon} internal-icon`;
+                finish();
+            }
+
+            function finish() {
+                loader.classList.add('hidden');
+                btn.disabled = false;
+            }
+
+            aiImg.onload = () => {
+                aiImg.classList.remove('hidden');
+                internal.classList.add('hidden');
+                finish();
+            };
+
+            aiImg.onerror = () => {
+                console.warn("سيرفر AI مضغوط، جاري الانتقال للتالي...");
+                tryNext();
+            };
+
+            tryNext();
         }
     </script>
 </body>
