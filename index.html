@@ -3,106 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محرر الهوية الذكي | Brand Editor</title>
+    <title>BrandBoost AI v3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: white; }
-        .editor-card { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255,255,255,0.1); }
-        #stickerPreview {
-            width: 200px; height: 200px;
-            transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; cursor: move;
-        }
+        body { font-family: 'Cairo', sans-serif; background: #020617; color: white; }
+        .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .preview-stage { background: radial-gradient(circle, #1e293b 0%, #020617 100%); min-height: 400px; position: relative; overflow: hidden; }
+        .ai-icon { width: 180px; height: 180px; z-index: 10; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.5)); }
+        .text-overlay { position: absolute; bottom: 40px; width: 100%; text-align: center; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
-<body class="min-h-screen p-4 flex flex-col items-center">
+<body class="p-4">
 
-    <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <div class="editor-card p-6 rounded-3xl space-y-6">
-            <h2 class="text-xl font-bold text-cyan-400 border-b border-slate-700 pb-2">🛠️ أدوات التعديل</h2>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">الاسم على التصميم:</label>
-                    <input type="text" id="nameInput" oninput="updateDesign()" placeholder="اكتب الاسم..." 
-                        class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 outline-none">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">لون الخلفية:</label>
-                        <input type="color" id="bgColor" oninput="updateDesign()" value="#06b6d4" class="w-full h-10 rounded-lg cursor-pointer bg-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">لون النص:</label>
-                        <input type="color" id="textColor" oninput="updateDesign()" value="#ffffff" class="w-full h-10 rounded-lg cursor-pointer bg-transparent">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">حجم الخط:</label>
-                    <input type="range" id="fontSize" oninput="updateDesign()" min="10" max="80" value="30" class="w-full accent-cyan-500">
-                </div>
-
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">شكل الملصق:</label>
-                    <select id="borderRadius" onchange="updateDesign()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-sm">
-                        <option value="50%">دائري (Sticker)</option>
-                        <option value="20px">مربع زوايا ناعمة</option>
-                        <option value="0px">مربع حاد</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">سماكة الحدود البيضاء:</label>
-                    <input type="range" id="borderWidth" oninput="updateDesign()" min="0" max="20" value="8" class="w-full accent-cyan-500">
-                </div>
+        <div class="lg:col-span-4 space-y-4">
+            <div class="glass-panel p-6 rounded-3xl">
+                <h2 class="text-cyan-400 font-bold mb-4 text-center">🤖 مولد الأيقونة الذكي</h2>
+                <input type="text" id="aiPrompt" placeholder="صف شعارك (مثلاً: صقر، محرك، شمس)..." 
+                    class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 mb-4 outline-none text-sm">
+                
+                <button onclick="generateAIIcon()" id="genBtn" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 p-3 rounded-xl font-bold hover:scale-105 transition">توليد أيقونة فريدة ✨</button>
             </div>
 
-            <button onclick="window.print()" class="w-full bg-cyan-600 hover:bg-cyan-500 py-3 rounded-xl font-bold transition-all shadow-lg mt-4">
-                حفظ التصميم النهائي 📥
-            </button>
-        </div>
-
-        <div class="flex flex-col items-center justify-center bg-slate-900/50 rounded-3xl p-10 border-2 border-dashed border-slate-700 min-h-[400px]">
-            <p class="text-xs text-slate-500 mb-4 font-bold">معاينة التصميم الحية</p>
-            
-            <div id="stickerPreview" style="background-color: #06b6d4; border: 8px solid white; border-radius: 50%;">
-                <span id="textPreview" style="color: white; font-size: 30px; font-weight: bold;">اسمك هنا</span>
-            </div>
-
-            <div class="mt-10 text-center">
-                <p class="text-slate-400 text-xs">يمكن للمستخدم تعديل كل شيء في الجهة اليمنى وتظهر النتائج هنا فوراً.</p>
+            <div class="glass-panel p-6 rounded-3xl space-y-4">
+                <h2 class="text-pink-400 font-bold mb-2 text-center">🎨 لمساتك الخاصة</h2>
+                <div>
+                    <label class="text-[10px] text-slate-400">اسم العلامة التجارية:</label>
+                    <input type="text" id="brandText" oninput="syncText()" class="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 outline-none">
+                </div>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="text-[10px] text-slate-400">لون النص:</label>
+                        <input type="color" id="textColor" oninput="syncText()" value="#ffffff" class="w-full h-8 bg-transparent cursor-pointer">
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-[10px] text-slate-400">حجم الخط:</label>
+                        <input type="range" id="textSize" oninput="syncText()" min="20" max="60" value="35" class="w-full accent-cyan-500">
+                    </div>
+                </div>
             </div>
         </div>
 
+        <div class="lg:col-span-8">
+            <div class="preview-stage rounded-[3rem] border border-slate-800 flex flex-col items-center justify-center shadow-2xl p-4">
+                <div id="loading" class="hidden absolute inset-0 bg-black/60 z-50 flex items-center justify-center rounded-[3rem]">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-cyan-500"></div>
+                </div>
+
+                <div id="finalLogo" class="relative flex flex-col items-center">
+                    <img id="aiIconImg" src="https://via.placeholder.com/200?text=AI+Icon" class="ai-icon rounded-full mb-6">
+                    <div id="textDisplay" class="text-3xl">BRAND NAME</div>
+                </div>
+
+                <div class="absolute bottom-6 flex gap-4">
+                    <button onclick="window.print()" class="bg-slate-800/80 px-6 py-2 rounded-full text-xs border border-slate-700">تحميل الهوية 📥</button>
+                    <button onclick="location.reload()" class="bg-slate-800/80 px-6 py-2 rounded-full text-xs border border-slate-700">إعادة البدء 🔄</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function updateDesign() {
-            const name = document.getElementById('nameInput').value || "اسمك هنا";
-            const bg = document.getElementById('bgColor').value;
-            const textCol = document.getElementById('textColor').value;
-            const size = document.getElementById('fontSize').value;
-            const radius = document.getElementById('borderRadius').value;
-            const borderW = document.getElementById('borderWidth').value;
+        function generateAIIcon() {
+            const prompt = document.getElementById('aiPrompt').value || 'abstract_modern_logo_icon';
+            const img = document.getElementById('aiIconImg');
+            const loading = document.getElementById('loading');
+            const btn = document.getElementById('genBtn');
 
-            // تحديث العناصر في المعاينة
-            const sticker = document.getElementById('stickerPreview');
-            const text = document.getElementById('textPreview');
+            loading.classList.remove('hidden');
+            btn.disabled = true;
 
-            text.innerText = name;
-            text.style.fontSize = size + "px";
-            text.style.color = textCol;
+            const seed = Math.floor(Math.random() * 100000);
+            // نستخدم Flux مع محددات دقيقة لضمان جودة الأيقونة فقط بدون عشوائية
+            const finalPrompt = `professional_minimalist_vector_icon_of_${prompt.replace(' ', '_')}_isolated_on_black_background_high_quality`;
+            
+            img.src = `https://image.pollinations.ai/prompt/${finalPrompt}?seed=${seed}&width=512&height=512&model=flux&nologo=true`;
 
-            sticker.style.backgroundColor = bg;
-            sticker.style.borderRadius = radius;
-            sticker.style.borderWidth = borderW + "px";
-            sticker.style.borderColor = "#ffffff"; // حدود بيضاء للملصق
-            sticker.style.borderStyle = "solid";
+            img.onload = () => {
+                loading.classList.add('hidden');
+                btn.disabled = false;
+            };
+        }
+
+        function syncText() {
+            const val = document.getElementById('brandText').value || 'BRAND NAME';
+            const color = document.getElementById('textColor').value;
+            const size = document.getElementById('textSize').value;
+            
+            const display = document.getElementById('textDisplay');
+            display.innerText = val;
+            display.style.color = color;
+            display.style.fontSize = size + 'px';
         }
     </script>
 </body>
