@@ -3,139 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost AI | الترسانة والمولد الخاص</title>
+    <title>BrandBoost Typography | محرك الخطوط العالمي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&family=Amiri:wght@700&family=Almarai:wght@800&family=Reem+Kufi:wght@700&family=Pacifico&family=Monoton&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background: #020617; color: white; }
-        .glass-ui { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
-        .preview-stage { background: white; width: 340px; height: 340px; border-radius: 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 40px rgba(6, 182, 212, 0.2); }
-        .server-tag { position: absolute; top: 15px; right: 15px; font-size: 9px; padding: 3px 10px; border-radius: 20px; background: #06b6d4; color: white; z-index: 30; }
-        .internal-icon { font-size: 100px; color: #06b6d4; filter: drop-shadow(0 0 10px rgba(6,182,212,0.5)); }
+        .editor-glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        .canvas-display { background: white; width: 100%; min-height: 350px; border-radius: 2.5rem; display: flex; align-items: center; justify-content: center; position: relative; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+        .text-main { transition: all 0.3s ease; line-height: 1.2; text-align: center; padding: 20px; }
+        /* زخارف إضافية */
+        .deco-line { width: 60px; height: 4px; background: currentColor; border-radius: 10px; margin: 10px auto; }
     </style>
 </head>
-<body class="min-h-screen p-4 flex flex-col items-center">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        <div class="lg:col-span-5 space-y-4">
-            <div class="glass-ui p-6 rounded-[2.5rem] shadow-2xl border-t border-cyan-500/30">
-                <h2 class="text-xl font-black text-cyan-400 mb-4 flex items-center gap-2">
-                    <i class="fas fa-microchip"></i> نظام التوليد الهجين
-                </h2>
+        <div class="lg:col-span-5 space-y-6">
+            <div class="editor-glass p-8 rounded-[2.5rem] shadow-2xl">
+                <h2 class="text-2xl font-black text-cyan-400 mb-6">🎨 مصمم المخطوطات الذكي</h2>
                 
-                <input type="text" id="brandName" oninput="updateLiveText()" placeholder="اسم العلامة التجارية..." 
-                    class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 outline-none focus:border-cyan-500 mb-4 transition-all">
-                
-                <textarea id="brandDesc" placeholder="صف فكرة الشعار (مثلاً: تكنولوجيا، صقر، طاقة)..." 
-                    class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 h-24 outline-none focus:border-cyan-500 text-sm"></textarea>
-                
-                <button onclick="startHybridGeneration()" id="btnAction" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 p-4 rounded-2xl font-bold shadow-xl hover:scale-[1.02] transition active:scale-95 mt-4">
-                    ابتكار الهوية الآن 🚀
-                </button>
+                <div class="space-y-4">
+                    <input type="text" id="brandText" oninput="render()" placeholder="اكتب الاسم (عربي أو English)..." 
+                        class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 outline-none focus:border-cyan-500 text-lg">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] text-slate-400 mb-2 block">نوع الخط:</label>
+                            <select id="fontFamily" onchange="render()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs">
+                                <optgroup label="عربي">
+                                    <option value="'Cairo', sans-serif">كاييرو (عصري)</option>
+                                    <option value="'Almarai', sans-serif">المراعي (ناعم)</option>
+                                    <option value="'Reem Kufi', sans-serif">ريم كوفي (تراثي)</option>
+                                    <option value="'Amiri', serif">أميري (كلاسيكي)</option>
+                                </optgroup>
+                                <optgroup label="English/Artistic">
+                                    <option value="'Pacifico', cursive">Pacifico (انسيابي)</option>
+                                    <option value="'Monoton', cursive">Monoton (تكنولوجي)</option>
+                                    <option value="serif">Classic Serif</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-400 mb-2 block">نمط الزخرفة:</label>
+                            <select id="decoStyle" onchange="render()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs">
+                                <option value="none">بدون زخرفة</option>
+                                <option value="stars">✧ نجوم ✧</option>
+                                <option value="brackets">【 إطار 】</option>
+                                <option value="lines">▬ خطوط ▬</option>
+                                <option value="glow">توهج نيون</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <label class="text-[10px] text-slate-400 mb-2 block">اللون:</label>
+                            <input type="color" id="textColor" oninput="render()" value="#0f172a" class="w-full h-10 bg-transparent cursor-pointer rounded-lg">
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-[10px] text-slate-400 mb-2 block">حجم الخط:</label>
+                            <input type="range" id="fontSize" oninput="render()" min="30" max="120" value="60" class="w-full accent-cyan-500">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="window.print()" class="w-full mt-8 bg-gradient-to-r from-cyan-600 to-blue-600 p-4 rounded-2xl font-bold shadow-xl hover:scale-[1.02] transition">تصدير المخطوطة بدقة عالية 📥</button>
             </div>
         </div>
 
         <div class="lg:col-span-7 flex flex-col items-center justify-center">
-            <div class="preview-stage" id="captureArea">
-                <div id="serverBadge" class="server-tag">جاهز</div>
-                
-                <div id="loader" class="hidden absolute inset-0 z-50 bg-white/95 flex flex-col items-center justify-center">
-                    <div class="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-                    <p id="statusText" class="text-[10px] text-slate-500 mt-4 font-bold uppercase tracking-widest text-center px-4"></p>
+            <div id="canvas" class="canvas-display">
+                <div id="textContainer" class="text-main">
+                    <div id="decoTop" class="hidden text-xl mb-2 opacity-50">✧✧✧</div>
+                    <span id="mainOutput">SHAMS</span>
+                    <div id="decoBottom" class="hidden text-xl mt-2 opacity-50">✧✧✧</div>
+                    <div id="decoLine" class="hidden deco-line"></div>
                 </div>
-
-                <img id="aiImg" src="" class="w-56 h-56 object-contain mb-4 hidden">
-                
-                <div id="internalEngine" class="hidden mb-4">
-                    <i id="internalIcon" class="fas fa-rocket internal-icon"></i>
-                </div>
-
-                <div id="textLabel" class="text-3xl font-black text-slate-900 uppercase tracking-tighter">BRAND NAME</div>
             </div>
-
-            <div class="mt-8 flex gap-4">
-                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-full text-xs font-bold border border-slate-700 transition">تحميل الهوية النهائية 📥</button>
-            </div>
+            <p class="mt-6 text-slate-500 text-xs">ملاحظة: يدعم هذا المحرك اللغة العربية والإنجليزية بشكل تلقائي وفوري.</p>
         </div>
+
     </div>
 
     <script>
-        const internalIcons = ['fa-rocket', 'fa-bolt', 'fa-shield-halved', 'fa-gem', 'fa-crown', 'fa-lightbulb', 'fa-brain', 'fa-microchip'];
-        let currentServerIndex = 0;
+        function render() {
+            let input = document.getElementById('brandText').value || "SHAMS";
+            const font = document.getElementById('fontFamily').value;
+            const color = document.getElementById('textColor').value;
+            const size = document.getElementById('fontSize').value;
+            const deco = document.getElementById('decoStyle').value;
 
-        function updateLiveText() {
-            document.getElementById('textLabel').innerText = document.getElementById('brandName').value || "BRAND NAME";
+            const output = document.getElementById('mainOutput');
+            const container = document.getElementById('textContainer');
+            const top = document.getElementById('decoTop');
+            const bottom = document.getElementById('decoBottom');
+            const line = document.getElementById('decoLine');
+
+            // إعدادات الخط والألوان
+            output.innerText = input;
+            container.style.fontFamily = font;
+            container.style.color = color;
+            output.style.fontSize = size + "px";
+
+            // تصفير الزخارف
+            top.classList.add('hidden');
+            bottom.classList.add('hidden');
+            line.classList.add('hidden');
+            output.style.textShadow = "none";
+
+            // تطبيق الزخرفة المختارة
+            if (deco === "stars") {
+                top.innerText = "✧✧✧";
+                bottom.innerText = "✧✧✧";
+                top.classList.remove('hidden');
+                bottom.classList.remove('hidden');
+            } else if (deco === "brackets") {
+                output.innerText = `【 ${input} 】`;
+            } else if (deco === "lines") {
+                line.classList.remove('hidden');
+                line.style.backgroundColor = color;
+            } else if (deco === "glow") {
+                output.style.textShadow = `0 0 20px ${color}`;
+            }
         }
 
-        async function startHybridGeneration() {
-            const name = document.getElementById('brandName').value;
-            const desc = document.getElementById('brandDesc').value;
-            if(!name || !desc) return alert('أدخل البيانات أولاً!');
-
-            const btn = document.getElementById('btnAction');
-            const loader = document.getElementById('loader');
-            const status = document.getElementById('statusText');
-            const badge = document.getElementById('serverBadge');
-            const aiImg = document.getElementById('aiImg');
-            const internal = document.getElementById('internalEngine');
-
-            btn.disabled = true;
-            loader.classList.remove('hidden');
-            currentServerIndex = 0;
-
-            const seed = Math.floor(Math.random() * 99999);
-            const prompt = encodeURIComponent(`minimalist_vector_logo_icon_of_${desc}_isolated_on_white`);
-
-            // ترسانة السيرفرات + المولد الخاص في النهاية
-            const servers = [
-                { name: "AI Server: Flux", url: `https://image.pollinations.ai/prompt/${prompt}?seed=${seed}&width=512&height=512&model=flux&nologo=true` },
-                { name: "AI Server: Stable", url: `https://image.pollinations.ai/prompt/${prompt}_modern?seed=${seed+1}&width=512&height=512&model=standard` },
-                { name: "Internal Engine", isInternal: true } // المولد الخاص بنا كخطة دفاع أخيرة
-            ];
-
-            function tryNext() {
-                if (currentServerIndex < servers.length) {
-                    const srv = servers[currentServerIndex];
-                    status.innerText = `محاولة الاتصال بـ: ${srv.name}...`;
-                    badge.innerText = srv.name;
-
-                    if (srv.isInternal) {
-                        runInternalGenerator();
-                    } else {
-                        aiImg.src = srv.url;
-                        currentServerIndex++;
-                    }
-                }
-            }
-
-            function runInternalGenerator() {
-                aiImg.classList.add('hidden');
-                internal.classList.remove('hidden');
-                const randomIcon = internalIcons[Math.floor(Math.random() * internalIcons.length)];
-                document.getElementById('internalIcon').className = `fas ${randomIcon} internal-icon`;
-                finish();
-            }
-
-            function finish() {
-                loader.classList.add('hidden');
-                btn.disabled = false;
-            }
-
-            aiImg.onload = () => {
-                aiImg.classList.remove('hidden');
-                internal.classList.add('hidden');
-                finish();
-            };
-
-            aiImg.onerror = () => {
-                console.warn("سيرفر AI مضغوط، جاري الانتقال للتالي...");
-                tryNext();
-            };
-
-            tryNext();
-        }
+        // تشغيل الرندر لأول مرة
+        render();
     </script>
 </body>
 </html>
