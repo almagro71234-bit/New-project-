@@ -3,131 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost Pro Export</title>
+    <title>BrandBoost Typography | الإصدار النهائي</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&family=Amiri:wght@700&family=Almarai:wght@800&family=Reem+Kufi:wght@700&family=Aref+Ruqaa:wght@700&family=Lalezar&family=Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&family=Amiri:wght@700&family=Almarai:wght@800&family=Reem+Kufi:wght@700&family=Aref+Ruqaa:wght@700&family=Lalezar&family=Tajawal:wght@900&family=Changa:wght@800&family=Kufam:wght@900&family=Vibes&family=Lemonada:wght@700&family=Pacifico&family=Monoton&family=Bungee+Shade&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #020617; color: white; }
+        body { font-family: 'Tajawal', sans-serif; background: #020617; color: white; overflow-x: hidden; }
         .editor-panel { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
-        /* منطقة العرض */
-        #exportArea { 
-            width: 100%; 
-            min-height: 400px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 2rem; 
-            transition: 0.3s;
-            position: relative;
+        #canvas { 
+            width: 100%; min-height: 450px; display: flex; align-items: center; justify-content: center; 
+            border-radius: 2.5rem; transition: 0.4s ease; position: relative; overflow: hidden;
+            border: 4px solid rgba(255,255,255,0.05);
         }
-        .bg-white { background-color: #ffffff; }
-        .bg-transparent-checkered { 
+        .bg-checkered { 
             background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px 10px, 10px 0;
-            background-color: #ffffff;
+            background-size: 20px 20px; background-color: #ffffff;
         }
+        .sticker-mode { border: 10px solid currentColor; padding: 40px; }
+        .btn-action { transition: all 0.2s; }
+        .btn-action:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 lg:p-8">
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         <div class="lg:col-span-5 space-y-4">
-            <div class="editor-panel p-6 rounded-[2.5rem] shadow-2xl">
-                <h2 class="text-xl font-black text-cyan-400 mb-4">⚙️ إعدادات التصدير</h2>
+            <div class="editor-panel p-6 rounded-[2.5rem] shadow-2xl h-fit">
+                <h2 class="text-xl font-black text-cyan-400 mb-6 flex items-center gap-2">✨ محرك المخطوطات والملصقات</h2>
                 
-                <input type="text" id="brandText" oninput="render()" placeholder="اكتب الاسم هنا..." 
-                    class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 outline-none mb-4 text-center text-lg">
+                <input type="text" id="brandText" oninput="render()" placeholder="اكتب اسم البراند..." 
+                    class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 outline-none mb-6 text-center text-xl text-cyan-500 font-bold focus:border-cyan-400 transition-all">
 
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <select id="fontFamily" onchange="render()" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs">
-                        <option value="'Lalezar'">خط لاليزار</option>
-                        <option value="'Aref Ruqaa'">خط الرقعة</option>
-                        <option value="'Reem Kufi'">الخط الكوفي</option>
-                        <option value="'Amiri'">الخط الأميري</option>
-                        <option value="'Vibes'">خط التوقيع</option>
-                    </select>
-                    <select id="bgType" onchange="render()" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs">
-                        <option value="white">خلفية بيضاء</option>
-                        <option value="transparent">خلفية شفافة</option>
-                    </select>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="space-y-4">
+                        <label class="text-[11px] text-slate-500 font-bold">الخط العربي/الأجنبي:</label>
+                        <select id="fontSelect" onchange="render()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-sm outline-none">
+                            <optgroup label="عربي">
+                                <option value="'Lalezar'">لاليزار (عريض)</option>
+                                <option value="'Aref Ruqaa'">الرقعة (فني)</option>
+                                <option value="'Reem Kufi'">الكوفي (هندسي)</option>
+                                <option value="'Lemonada'">ليمونادة (مزخرف)</option>
+                                <option value="'Vibes'">مخطوطة يدوية</option>
+                                <option value="'Amiri'">النسخ (كلاسيك)</option>
+                            </optgroup>
+                            <optgroup label="English/Arts">
+                                <option value="'Pacifico'">Pacifico (انسيابي)</option>
+                                <option value="'Monoton'">Monoton (نيون)</option>
+                                <option value="'Bungee Shade'">Bungee (ثلاثي الأبعاد)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="text-[11px] text-slate-500 font-bold">نمط الخلفية:</label>
+                        <select id="bgSelect" onchange="render()" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-sm outline-none text-cyan-400">
+                            <option value="white">أبيض ناصع</option>
+                            <option value="transparent">شفاف (للمصممين)</option>
+                            <option value="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">تدرج بنفسجي</option>
+                            <option value="linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)">تدرج وردي</option>
+                            <option value="linear-gradient(135deg, #232526 0%, #414345 100%)">تدرج أسود ملكي</option>
+                        </select>
+                    </div>
                 </div>
 
-                <input type="color" id="textColor" oninput="render()" value="#1e293b" class="w-full h-10 mb-6 bg-transparent cursor-pointer">
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-[11px] text-slate-500 mb-2 block font-bold">لون النص:</label>
+                        <input type="color" id="textColor" oninput="render()" value="#0f172a" class="w-full h-10 bg-transparent cursor-pointer rounded-lg border border-slate-700">
+                    </div>
+                    <div>
+                        <label class="text-[11px] text-slate-500 mb-2 block font-bold">شكل اللوغو:</label>
+                        <select id="shapeSelect" onchange="render()" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs">
+                            <option value="none">نص حر</option>
+                            <option value="circle">ملصق دائري</option>
+                            <option value="square">ملصق مربع</option>
+                        </select>
+                    </div>
+                </div>
 
-                <div class="space-y-2">
-                    <button onclick="downloadImage()" class="w-full bg-cyan-600 hover:bg-cyan-500 p-3 rounded-xl font-bold flex items-center justify-center gap-2">
-                        <span>تنزيل كصورة PNG</span>
-                    </button>
-                    <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-700 p-3 rounded-xl font-bold border border-slate-700">
-                        <span>حفظ كملف PDF</span>
-                    </button>
-                    <button onclick="copyToClipboard()" class="w-full bg-slate-800 hover:bg-slate-700 p-3 rounded-xl font-bold border border-slate-700">
-                        <span>نسخ النص المزخرف</span>
-                    </button>
+                <div class="space-y-3 pt-4 border-t border-slate-800">
+                    <button onclick="downloadLogo()" class="btn-action w-full bg-cyan-600 hover:bg-cyan-500 p-4 rounded-2xl font-black text-sm shadow-xl shadow-cyan-900/40">تنزيل بجودة 4K (PNG) 📥</button>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="window.print()" class="btn-action bg-slate-800 p-3 rounded-xl text-xs font-bold border border-slate-700">حفظ PDF</button>
+                        <button onclick="copyStyledText()" class="btn-action bg-slate-800 p-3 rounded-xl text-xs font-bold border border-slate-700">نسخ الاسم</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="lg:col-span-7 flex flex-col items-center">
-            <div id="exportArea" class="bg-white shadow-2xl">
-                <div id="textOutput" style="font-size: 80px; color: #1e293b; text-align: center;">اسم البراند</div>
+            <div id="canvas" class="bg-white">
+                <div id="wrapper" class="transition-all duration-500">
+                    <span id="textOutput" class="leading-none">اسم البراند</span>
+                </div>
             </div>
-            <p class="mt-4 text-slate-500 text-[10px]">المعاينة تظهر بدقة الشاشة، التنزيل سيكون بدقة عالية.</p>
+            <p class="mt-4 text-slate-500 text-[10px] text-center">النتيجة النهائية جاهزة للاستخدام في السوشيال ميديا والطباعة.</p>
         </div>
     </div>
 
     <script>
         function render() {
             const text = document.getElementById('brandText').value || "اسم البراند";
-            const font = document.getElementById('fontFamily').value;
-            const bg = document.getElementById('bgType').value;
+            const font = document.getElementById('fontSelect').value;
+            const bg = document.getElementById('bgSelect').value;
             const color = document.getElementById('textColor').value;
+            const shape = document.getElementById('shapeSelect').value;
 
-            const area = document.getElementById('exportArea');
+            const canvas = document.getElementById('canvas');
+            const wrapper = document.getElementById('wrapper');
             const output = document.getElementById('textOutput');
 
+            // ضبط المحتوى والخط
             output.innerText = text;
             output.style.fontFamily = font;
             output.style.color = color;
+            output.style.fontSize = "90px"; // حجم افتراضي للمعاينة
 
+            // ضبط الخلفية
             if (bg === "transparent") {
-                area.className = "bg-transparent-checkered";
+                canvas.className = "bg-checkered";
+                canvas.style.background = "";
+            } else if (bg.includes("gradient")) {
+                canvas.className = "";
+                canvas.style.background = bg;
             } else {
-                area.className = "bg-white";
+                canvas.className = "bg-white";
+                canvas.style.background = "#ffffff";
+            }
+
+            // ضبط الأشكال
+            wrapper.className = "flex items-center justify-center transition-all duration-300";
+            wrapper.style.borderColor = color;
+            if (shape === "circle") {
+                wrapper.classList.add('sticker-mode', 'rounded-full');
+            } else if (shape === "square") {
+                wrapper.classList.add('sticker-mode', 'rounded-[40px]');
             }
         }
 
-        async function downloadImage() {
-            const area = document.getElementById('exportArea');
-            const bgType = document.getElementById('bgType').value;
+        async function downloadLogo() {
+            const canvasEl = document.getElementById('canvas');
+            const bg = document.getElementById('bgSelect').value;
             
-            // إخفاء الشبكة إذا كانت الخلفية شفافة قبل التصوير
-            if(bgType === "transparent") area.style.backgroundImage = "none";
+            // تحضير للتصدير (إخفاء نمط الشفافية المؤقت)
+            const originalBg = canvasEl.style.background;
+            const originalClass = canvasEl.className;
+            
+            if (bg === "transparent") {
+                canvasEl.className = "";
+                canvasEl.style.background = "transparent";
+            }
 
-            const canvas = await html2canvas(area, {
-                backgroundColor: bgType === "transparent" ? null : "#ffffff",
-                scale: 3 // جودة عالية جداً
+            const canvasResult = await html2canvas(canvasEl, {
+                backgroundColor: bg === "transparent" ? null : (bg.includes("gradient") ? null : "#ffffff"),
+                scale: 4, // دقة عالية جداً
+                logging: false,
+                useCORS: true
             });
 
             const link = document.createElement('a');
-            link.download = 'BrandLogo.png';
-            link.href = canvas.toDataURL();
+            link.download = `BrandBoost_Export_${Date.now()}.png`;
+            link.href = canvasResult.toDataURL("image/png");
             link.click();
             
-            render(); // إعادة الشبكة للمعاينة
+            // إعادة الوضع للمعاينة
+            render();
         }
 
-        function copyToClipboard() {
-            const text = document.getElementById('brandText').value || "اسم البراند";
-            const decorated = `✧ ${text} ✧`;
-            navigator.clipboard.writeText(decorated);
-            alert("تم نسخ النص المزخرف!");
+        function copyStyledText() {
+            const val = document.getElementById('brandText').value || "اسم البراند";
+            navigator.clipboard.writeText(`亗 ${val} 亗`);
+            alert("تم النسخ!");
         }
 
-        render();
+        render(); // تشغيل أولي
     </script>
 </body>
 </html>
