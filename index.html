@@ -3,70 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandBoost Studio Pro | الإصدار الملكي الشامل</title>
+    <title>BrandBoost Studio Pro | النسخة الشاملة للهوية الورقية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&family=Amiri:wght@700&family=Reem+Kufi:wght@700&family=Aref+Ruqaa:wght@700&family=Lalezar&family=Vibes&family=Lemonada:wght@700&family=Changa:wght@800&family=Tajawal:wght@900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Tajawal', sans-serif; background: #010409; color: white; margin: 0; }
         .control-card { background: rgba(13, 17, 23, 0.98); border: 1px solid #30363d; border-radius: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        #canvas { width: 100%; min-height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2.5rem; position: relative; overflow: hidden; transition: 0.3s; }
-        .bg-grid { background-image: radial-gradient(#d1d5db 1px, transparent 1px); background-size: 20px 20px; background-color: #ffffff; }
+        #canvas { width: 100%; min-height: 550px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2.5rem; position: relative; overflow: hidden; background: white; transition: 0.3s; }
         .gold-text { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fcf6ba, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .silver-text { background: linear-gradient(to right, #70706f, #e2e2e1, #70706f, #e2e2e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         input[type="range"] { accent-color: #22d3ee; }
-        .tshirt-mockup { width: 100%; height: 300px; background-image: url('https://img.freepik.com/free-psd/t-shirt-mockup_1310-449.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .tshirt-logo { position: absolute; top: 35%; transform: scale(0.3); transform-origin: center center; }
+        
+        /* تصميم المعاينات الورقية الجديدة */
+        .mockup-paper { transition: 0.4s; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; background: white; color: black; }
+        .business-card { width: 350px; height: 200px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .letterhead { width: 300px; height: 400px; padding: 20px; display: block; text-align: right; }
+        .postcard { width: 350px; height: 240px; border-radius: 5px; border-left: 2px solid #eee; padding: 20px; }
     </style>
 </head>
 <body class="p-4 lg:p-10">
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
-        
         <div class="lg:col-span-5 space-y-4">
-            <div class="control-card p-8">
-                <h2 class="text-2xl font-black text-cyan-400 mb-6 flex items-center gap-2">💎 استوديو التصميم المتكامل</h2>
+            <div class="control-card p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+                <h2 class="text-2xl font-black text-cyan-400 mb-6 flex items-center gap-2">💎 استوديو الهوية المتكامل</h2>
                 
-                <div class="space-y-5">
-                    <div>
-                        <input type="text" id="brandText" oninput="render()" placeholder="اكتب اسم البراند..." 
-                            class="w-full p-4 rounded-xl bg-black border border-slate-800 outline-none text-center text-xl text-cyan-400 font-bold focus:border-cyan-500">
-                    </div>
+                <div class="space-y-4">
+                    <input type="text" id="brandText" oninput="render()" placeholder="اسم البراند الرئيسي..." class="w-full p-4 rounded-xl bg-black border border-slate-800 outline-none text-cyan-400 font-bold text-center text-xl">
+                    <input type="text" id="sloganText" oninput="render()" placeholder="نص فرعي (Slogan) (اختياري)..." class="w-full p-3 rounded-xl bg-slate-900 border border-slate-800 outline-none text-slate-400 text-sm text-center">
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <select id="fontSelect" onchange="render()" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs outline-none">
+                    <div class="grid grid-cols-2 gap-3">
+                        <select id="fontSelect" onchange="render()" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs outline-none cursor-pointer">
                             <option value="'Aref Ruqaa'">خط الرقعة</option>
                             <option value="'Lalezar'">خط لاليزار</option>
                             <option value="'Reem Kufi'">الخط الكوفي</option>
                             <option value="'Tajawal'">خط عصري</option>
+                            <option value="'Vibes'">توقيع يدوي</option>
                         </select>
-                        <select id="iconSelect" onchange="render()" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs outline-none">
+                        <select id="iconSelect" onchange="render()" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs outline-none cursor-pointer">
                             <option value="">بلا رمز</option>
-                            <option value="👑">👑 تاج</option>
-                            <option value="💎">💎 ألماس</option>
+                            <option value="👑">👑 ملكي</option>
+                            <option value="💎">💎 فاخر</option>
                             <option value="🚀">🚀 انطلاق</option>
-                            <option value="✒️">✒️ ريشة</option>
+                            <option value="✒️">✒️ خطاب</option>
                         </select>
                     </div>
 
-                    <div class="p-4 bg-slate-900/50 rounded-2xl space-y-3">
-                        <div class="flex justify-between items-center">
-                            <label class="text-[10px] font-bold text-slate-400">اللون والحجم:</label>
-                            <div class="flex gap-2">
-                                <button onclick="setColor('gold')" class="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-700 to-yellow-200 border border-yellow-500" title="ذهبي الملكي"></button>
-                                <button onclick="setColor('silver')" class="w-6 h-6 rounded-full bg-gradient-to-tr from-slate-600 to-slate-100 border border-slate-400" title="فضي الفاخر"></button>
-                                <input type="color" id="mainColor" oninput="render()" value="#0ea5e9" class="w-6 h-6 bg-transparent cursor-pointer">
-                            </div>
+                    <div class="p-4 bg-slate-900/50 rounded-2xl flex justify-between items-center border border-slate-700">
+                        <span class="text-[10px] font-bold text-slate-400">اللون والحجم الملكي:</span>
+                        <div class="flex gap-2">
+                            <button onclick="setColor('gold')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-700 to-yellow-200 border border-yellow-500"></button>
+                            <button onclick="setColor('silver')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-600 to-slate-100 border border-slate-400"></button>
+                            <input type="color" id="mainColor" oninput="render()" value="#0ea5e9" class="w-8 h-8 bg-transparent cursor-pointer">
                         </div>
-                        <input type="range" id="fontSize" oninput="render()" min="40" max="180" value="90" class="w-full h-2 rounded-lg appearance-none bg-slate-800 cursor-pointer">
                     </div>
 
-                    <div class="pt-4 border-t border-slate-800">
-                        <p class="text-[10px] text-slate-500 mb-3 text-center font-bold uppercase tracking-widest">معاينة الواقع (Mockups)</p>
-                        <div class="flex justify-around gap-2">
-                            <button onclick="setPreviewMode('none')" class="px-3 py-1 bg-slate-800 rounded-full text-xs font-bold border border-slate-700 active:scale-95 transition-all">اللوغو الملكي</button>
-                            <button onclick="setPreviewMode('tshirt')" class="px-3 py-1 bg-cyan-600 rounded-full text-xs font-bold active:scale-95 transition-all">معاينة على التيشرت</button>
-                        </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <select id="effectSelect" onchange="render()" class="p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs">
+                            <option value="none">عادي</option>
+                            <option value="glow">إشعاع (Glow)</option>
+                            <option value="outline">مفرغ (Outline)</option>
+                        </select>
+                        <select id="bgSelect" onchange="setPreview('none')" class="p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs">
+                            <option value="none">اللوغو الملكي</option>
+                            <option value="card">كرت عمل</option>
+                            <option value="letter">خطاب رسمي</option>
+                            <option value="post">بطاقة بريدية</option>
+                        </select>
                     </div>
                 </div>
 
@@ -80,76 +84,95 @@
             </div>
         </div>
 
-        <div class="lg:col-span-7 flex flex-col items-center">
-            <div id="canvas" class="bg-white shadow-2xl">
-                <div id="drawArea" class="flex flex-col items-center p-16 text-center transition-all duration-300">
+        <div class="lg:col-span-7 flex flex-col items-center justify-center">
+            <div id="canvas">
+                <div id="logoArea" class="flex flex-col items-center p-16 text-center transition-all duration-300">
                     <span id="iconDisplay" class="text-8xl mb-4 transition-all"></span>
                     <span id="textDisplay" class="font-black leading-none transition-all">الاسم</span>
+                    <span id="sloganDisplay" class="mt-4 text-2xl opacity-80" style="font-family: 'Cairo';"></span>
                 </div>
-                <div id="tshirtArea" class="hidden tshirt-mockup">
-                    <div id="tshirtLogo" class="tshirt-logo flex flex-col items-center p-12 text-center">
-                        <span id="iconDisplayShirt" class="text-8xl mb-4 transition-all"></span>
-                        <span id="textDisplayShirt" class="font-black leading-none transition-all">الاسم</span>
+
+                <div id="cardArea" class="hidden mockup-paper business-card">
+                    <div class="logo-wrap scale-[0.4] flex flex-col items-center"></div>
+                    <div class="mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest">Premium Business Card</div>
+                </div>
+
+                <div id="letterArea" class="hidden mockup-paper letterhead">
+                    <div class="logo-wrap scale-[0.3] origin-right mb-10"></div>
+                    <div class="h-1 bg-slate-100 w-full mb-6"></div>
+                    <div class="space-y-3">
+                        <div class="h-2 bg-slate-50 w-full"></div>
+                        <div class="h-2 bg-slate-50 w-5/6"></div>
+                        <div class="h-2 bg-slate-50 w-full"></div>
+                    </div>
+                </div>
+
+                <div id="postArea" class="hidden mockup-paper postcard flex justify-between">
+                    <div class="w-1/2 flex items-center justify-center border-l border-slate-100">
+                        <div class="logo-wrap scale-[0.4]"></div>
+                    </div>
+                    <div class="w-1/2 p-4 flex flex-col justify-end">
+                        <div class="w-8 h-10 border border-slate-200 self-end mb-10"></div>
+                        <div class="h-[1px] bg-slate-200 w-full mb-4"></div>
+                        <div class="h-[1px] bg-slate-200 w-full mb-4"></div>
                     </div>
                 </div>
             </div>
-            <p class="mt-4 text-slate-500 text-[10px] italic">الإصدار الملكي V6.0 - يدعم معاينة التيشرت والألوان الملكية.</p>
+            <p class="mt-4 text-slate-500 text-[10px] italic">الإصدار الشامل للهوية الورقية V8.0 - الحفاظ على كافة الميزات التاريخية.</p>
         </div>
     </div>
 
     <script>
         let currentMode = 'color';
-        let currentPreviewMode = 'none';
-
         function setColor(m) { currentMode = m; render(); }
-        function setPreviewMode(m) { currentPreviewMode = m; render(); }
+        
+        function setPreview(p) {
+            document.getElementById('bgSelect').value = p; // مزامنة الـ Select
+            render();
+        }
 
         function render() {
             const text = document.getElementById('brandText').value || "الاسم";
+            const slogan = document.getElementById('sloganText').value || "";
             const font = document.getElementById('fontSelect').value;
             const icon = document.getElementById('iconSelect').value;
-            const size = document.getElementById('fontSize').value;
             const color = document.getElementById('mainColor').value;
-            
+            const effect = document.getElementById('effectSelect').value;
+            const bgMode = document.getElementById('bgSelect').value;
+
             const tD = document.getElementById('textDisplay');
+            const sD = document.getElementById('sloganDisplay');
             const iD = document.getElementById('iconDisplay');
-            const canvas = document.getElementById('canvas');
-            const drawArea = document.getElementById('drawArea');
-            const tshirtArea = document.getElementById('tshirtArea');
+            const cv = document.getElementById('canvas');
 
-            // ضبط المحتوى
-            tD.innerText = text; tD.style.fontFamily = font; tD.style.fontSize = size + "px";
-            iD.innerText = icon;
+            tD.innerText = text; tD.style.fontFamily = font; tD.style.fontSize = "100px";
+            sD.innerText = slogan; iD.innerText = icon;
 
-            // ضبط الألوان الملكية بدقة
             tD.className = "font-black leading-none " + (currentMode === 'gold' ? 'gold-text' : (currentMode === 'silver' ? 'silver-text' : ''));
             iD.className = "text-8xl mb-4 " + (currentMode === 'gold' ? 'gold-text' : (currentMode === 'silver' ? 'silver-text' : ''));
 
             if(currentMode === 'color') { tD.style.webkitTextFillColor = color; iD.style.color = color; }
 
-            // تحديث محتوى التيشرت تلقائياً
-            document.getElementById('textDisplayShirt').innerHTML = document.getElementById('textDisplay').innerHTML;
-            document.getElementById('iconDisplayShirt').innerHTML = document.getElementById('iconDisplay').innerHTML;
-            
-            // ضبط المعاينة
-            if (currentPreviewMode === 'tshirt') {
-                drawArea.classList.add('hidden');
-                tshirtArea.classList.remove('hidden');
-                canvas.className = "tshirt-mockup shadow-2xl";
-                canvas.style.background = ""; // حذ الخلفية الشبكية
-            } else {
-                drawArea.classList.remove('hidden');
-                tshirtArea.classList.add('hidden');
-                canvas.className = "bg-white shadow-2xl";
-                canvas.style.background = "#ffffff";
+            // تبديل المعاينات الجديدة
+            document.getElementById('logoArea').classList.add('hidden');
+            document.getElementById('cardArea').classList.add('hidden');
+            document.getElementById('letterArea').classList.add('hidden');
+            document.getElementById('postArea').classList.add('hidden');
+            canvas.className = "bg-white shadow-2xl"; // الافتراضي
+
+            if(bgMode === 'none') document.getElementById('logoArea').classList.remove('hidden');
+            else {
+                const target = document.getElementById(bgMode + 'Area');
+                target.classList.remove('hidden');
+                target.querySelector('.logo-wrap').innerHTML = document.getElementById('logoArea').innerHTML;
+                canvas.className = ""; // حذ الخلفية الشبكية في المعاينة الورقية
             }
         }
 
         async function downloadPNG() {
             const el = document.getElementById('canvas');
             const res = await html2canvas(el, { backgroundColor: "#ffffff", scale: 4 });
-            const link = document.createElement('a');
-            link.download = `Design_RoyalPro_${Date.now()}.png`; link.href = res.toDataURL(); link.click();
+            const link = document.createElement('a'); link.download = `RoyalIdentity_${Date.now()}.png`; link.href = res.toDataURL(); link.click();
         }
 
         function copyToClipboard() {
